@@ -19,7 +19,8 @@ class MapNavbar extends React.Component{
             vine: true,
             inheritance: true,
             activevacation: true,
-            innature: true
+            innature: true,
+            filter:false,
         };
 
     }
@@ -73,11 +74,15 @@ class MapNavbar extends React.Component{
             innature: !this.state.innature
         });
     }
+
+    setFilter(variable){
+
+    }
     
     render(){
         return(
             <div>
-                <Map></Map>
+                <Map handler={this.setFilter}></Map>
                 <Nav variant="tabs">
                     <Nav.Item onClick={this.toggleFood}>
                         <Nav.Link eventKey="link-1">Hrana</Nav.Link>
