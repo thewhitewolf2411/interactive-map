@@ -1,7 +1,10 @@
-import React, { PropTypes } from 'react';
-import { Collapse, Navbar, NavbarToggler, NavItem, NavLink, NavbarText } from 'reactstrap';
+import React from 'react';
+import { Collapse, NavItem, NavLink } from 'reactstrap';
 import {Nav} from 'react-bootstrap';
-import Map from './Map';
+import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import {locationData} from '../../src/data/locations';
 
 class MapNavbar extends React.Component{
 
@@ -14,6 +17,8 @@ class MapNavbar extends React.Component{
         this.toggleActivevacation = this.toggleActivevacation.bind(this);
         this.toggleInnature = this.toggleInnature.bind(this);
 
+        this.customIcon = this.customIcon;
+
         this.state = {
             food: true,
             vine: true,
@@ -22,26 +27,38 @@ class MapNavbar extends React.Component{
             innature: true,
             filter:false,
         };
-
     }
+
+    customIcon = L.icon({
+        iconUrl: '',
+
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+
+    });
 
     toggleFood(){
         this.setState({
-            food: !this.state.food,
+            food: false,
             vine: true,
             inheritance: true,
             activevacation: true,
-            innature: true
+            innature: true,
+            filter:false
         });
     }
 
     toggleVine(){
         this.setState({
             food: true,
-            vine: !this.state.vine,
+            vine: false,
             inheritance: true,
             activevacation: true,
-            innature: true
+            innature: true,
+            filter:false
         });
     }
 
@@ -49,9 +66,10 @@ class MapNavbar extends React.Component{
         this.setState({
             food: true,
             vine: true,
-            inheritance: !this.state.inheritance,
+            inheritance: false,
             activevacation: true,
-            innature: true
+            innature: true,
+            filter:false
         });
     }
 
@@ -60,8 +78,9 @@ class MapNavbar extends React.Component{
             food: true,
             vine: true,
             inheritance: true,
-            activevacation: !this.state.activevacation,
-            innature: true
+            activevacation: false,
+            innature: true,
+            filter:false
         });
     }
 
@@ -71,33 +90,73 @@ class MapNavbar extends React.Component{
             vine: true,
             inheritance: true,
             activevacation: true,
-            innature: !this.state.innature
+            innature: false,
+            filter:false
         });
     }
 
     setFilter(variable){
+        //alert(variable);
+        this.setState({filter:variable});
 
+        this.customIcon = L.icon({
+            iconUrl: '../../images/pins/LGBT_2.svg',
+    
+            iconSize:     [38, 95],
+            shadowSize:   [50, 64],
+            iconAnchor:   [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor:  [-3, -76]
+    
+        });
+
+        L.marker({icon:this.customIcon});
     }
     
     render(){
         return(
             <div>
-                <Map handler={this.setFilter}></Map>
-                <Nav variant="tabs">
-                    <Nav.Item onClick={this.toggleFood}>
-                        <Nav.Link eventKey="link-1">Hrana</Nav.Link>
+                <MapContainer center={[43.8519774,18.3866868]} zoom={8} scrollWheelZoom={false}>
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+
+                    {
+                        locationData.map((data, key)=>{
+                            if(this.state.filter === false){
+                                return null;
+                            }
+                            else{
+                                if(data.tags.includes(this.state.filter)){
+                                    return(
+                                        <Marker key={key} position={[data.lognitute, data.lattitude]} icon={this.state.imageUrl}>
+                                            <Popup>
+                                                {data.title}
+                                            </Popup>
+                                        </Marker>
+                                    );
+                                }
+                            }
+                        })
+                    }
+
+                </MapContainer>
+                <Nav fill variant="tabs" >
+                    <Nav.Item onClick={this.toggleFood} >
+                        <Nav.Link eventKey="link-1" className={`${!this.state.food === true ? 'active':''}`}>Hrana</Nav.Link>
                     </Nav.Item>
                     <Nav.Item onClick={this.toggleVine}>
-                        <Nav.Link eventKey="link-2">Vino i rakija</Nav.Link>
+                        <Nav.Link eventKey="link-2" className={`${!this.state.vine === true ? 'active':''}`}>Vino i rakija</Nav.Link>
                     </Nav.Item>
                     <Nav.Item onClick={this.toggleInheritance}>
-                        <Nav.Link eventKey="link-3">Naslijeđe</Nav.Link>
+                        <Nav.Link eventKey="link-3" className={`${!this.state.inheritance === true ? 'active':''}`}>Naslijeđe</Nav.Link>
                     </Nav.Item>
                     <Nav.Item onClick={this.toggleActivevacation}>
-                        <Nav.Link eventKey="link-4">Aktivan odmor</Nav.Link>
+                        <Nav.Link eventKey="link-4" className={`${!this.state.activevacation === true ? 'active':''}`}>Aktivan odmor</Nav.Link>
                     </Nav.Item>
                     <Nav.Item onClick={this.toggleInnature}>
-                        <Nav.Link eventKey="link-5">U prirodi</Nav.Link>
+                        <Nav.Link eventKey="link-5" className={`${!this.state.innature === true ? 'active':''}`}>U prirodi</Nav.Link>
                     </Nav.Item>
                 </Nav>
                 <Collapse className="navbar-toggleable-md px-5" isOpen={!this.state.food}>
@@ -142,7 +201,7 @@ class MapNavbar extends React.Component{
                 <Collapse className="navbar-toggleable-md px-5" isOpen={!this.state.activevacation}>
                     <Nav className="row">
                         <NavItem>
-                            <NavLink>Streljaštvo</NavLink>
+                            <NavLink onClick={() => this.setFilter('streljastvo')}>Streljaštvo</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink>Jahanje</NavLink>
@@ -189,8 +248,30 @@ class MapNavbar extends React.Component{
                         </NavItem>
                     </Nav>
                 </Collapse>
+            
+                <Collapse className="navbar-toggleable-md px-5" isOpen={this.state.filter}>
+                    <Nav className="row">
+                    {
+                        locationData.map((data, key)=>{
+                            if(this.state.filter === false){
+                                return null;
+                            }
+                            else{
+                                if(data.tags.includes(this.state.filter)){
+                                    return(
+                                        <NavItem>
+                                            <NavLink>{data.title}</NavLink>
+                                        </NavItem>
+                                    );
+                                }
+                            }
+                        })
+                    }
+                    </Nav>
+                </Collapse>
             </div>
         )
+
     }
 
 }

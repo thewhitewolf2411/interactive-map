@@ -1,9 +1,9 @@
-[
+export const locationData = [
     {
         "title":"Seosko domaćinstvo Čardaklije",
         "lognitute":44.638435,
         "lattitude":16.182469,
-        "url":"",
+        "url":"http://www.google.com",
         "tags":["streljastvo", "jahanje", "biciklizam", "pećina", "restoran"]
     },
     {
