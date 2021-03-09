@@ -99,6 +99,10 @@ class MapNavbar extends React.Component{
         //alert(variable);
         this.setState({filter:variable});
     }
+
+    openUrl(url){
+        console.log(url);
+    }
     
     render(){
         return(
@@ -118,8 +122,8 @@ class MapNavbar extends React.Component{
                                 if(data.tags.includes(this.state.filter)){
                                     return(
                                         <Marker key={key} position={[data.lognitute, data.lattitude]}>
-                                            <Popup>
-                                                {data.title}
+                                            <Popup onClick={() => this.openUrl(data.url)}>
+                                                <h5>{data.title}</h5>
                                             </Popup>
                                         </Marker>
                                     );
@@ -233,27 +237,6 @@ class MapNavbar extends React.Component{
                         <NavItem>
                             <NavLink>Planina</NavLink>
                         </NavItem>
-                    </Nav>
-                </Collapse>
-            
-                <Collapse className="navbar-toggleable-md px-5" isOpen={this.state.filter}>
-                    <Nav className="row">
-                    {
-                        locationData.map((data, key)=>{
-                            if(this.state.filter === false){
-                                return null;
-                            }
-                            else{
-                                if(data.tags.includes(this.state.filter)){
-                                    return(
-                                        <NavItem>
-                                            <NavLink>{data.title}</NavLink>
-                                        </NavItem>
-                                    );
-                                }
-                            }
-                        })
-                    }
                     </Nav>
                 </Collapse>
             </div>
