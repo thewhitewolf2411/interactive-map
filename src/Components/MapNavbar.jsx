@@ -98,19 +98,6 @@ class MapNavbar extends React.Component{
     setFilter(variable){
         //alert(variable);
         this.setState({filter:variable});
-
-        this.customIcon = L.icon({
-            iconUrl: '../../images/pins/LGBT_2.svg',
-    
-            iconSize:     [38, 95],
-            shadowSize:   [50, 64],
-            iconAnchor:   [22, 94],
-            shadowAnchor: [4, 62],
-            popupAnchor:  [-3, -76]
-    
-        });
-
-        L.marker({icon:this.customIcon});
     }
     
     render(){
@@ -130,7 +117,7 @@ class MapNavbar extends React.Component{
                             else{
                                 if(data.tags.includes(this.state.filter)){
                                     return(
-                                        <Marker key={key} position={[data.lognitute, data.lattitude]} icon={this.state.imageUrl}>
+                                        <Marker key={key} position={[data.lognitute, data.lattitude]}>
                                             <Popup>
                                                 {data.title}
                                             </Popup>
