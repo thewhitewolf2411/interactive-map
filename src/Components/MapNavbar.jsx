@@ -5,6 +5,14 @@ import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {locationData} from '../../src/data/locations';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+/*
+Ikone
+*/
+import streljastvoIcon from '../images/pins/Streljastvo.svg';
+import jahanjeIcon from '../images/pins/Jahanje.svg';
 
 class MapNavbar extends React.Component{
 
@@ -26,19 +34,12 @@ class MapNavbar extends React.Component{
             activevacation: true,
             innature: true,
             filter:false,
+            showIcon:icon,
         };
+
     }
 
-    customIcon = L.icon({
-        iconUrl: '',
 
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
-
-    });
 
     toggleFood(){
         this.setState({
@@ -98,6 +99,30 @@ class MapNavbar extends React.Component{
     setFilter(variable){
         //alert(variable);
         this.setState({filter:variable});
+
+        switch(variable){
+            case 'streljastvo':
+                var strIcon = L.icon({
+                    iconUrl: streljastvoIcon,
+                    shadowUrl: iconShadow
+                });
+                L.Marker.prototype.options.icon = strIcon;
+                break;
+            case 'jahanje':
+                var jahIcon = L.icon({
+                    iconUrl: jahanjeIcon,
+                    shadowUrl: iconShadow
+                });
+                L.Marker.prototype.options.icon = jahIcon;
+                break;
+            case '':
+                break;
+            case '':
+                break;
+            case '':
+                break;
+
+        }
     }
 
     openUrl(url){
@@ -153,39 +178,39 @@ class MapNavbar extends React.Component{
                 <Collapse className="navbar-toggleable-md px-5" isOpen={!this.state.food}>
                     <Nav className="row">
                         <NavItem>
-                            <NavLink>Restoran</NavLink>
+                            <NavLink onClick={() => this.setFilter('restoran')}>Restoran</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Na kućnom pragu</NavLink>
+                            <NavLink onClick={() => this.setFilter('nkp')}>Na kućnom pragu</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
                 <Collapse className="navbar-toggleable-md px-5" isOpen={!this.state.vine}>
                     <Nav className="row">
                         <NavItem>
-                            <NavLink>Vino</NavLink>
+                            <NavLink onClick={() => this.setFilter('vino')}>Vino</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Rakija</NavLink>
+                            <NavLink onClick={() => this.setFilter('rakija')}>Rakija</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Pivo</NavLink>
+                            <NavLink onClick={() => this.setFilter('pivo')}>Pivo</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
                 <Collapse className="navbar-toggleable-md px-5" isOpen={!this.state.inheritance}>
                     <Nav className="row">
                         <NavItem>
-                            <NavLink>Tvrđava</NavLink>
+                            <NavLink onClick={() => this.setFilter('tvrdjava')}>Tvrđava</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Muzej</NavLink>
+                            <NavLink onClick={() => this.setFilter('muzej')}>Muzej</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Nekropola stećaka</NavLink>
+                            <NavLink onClick={() => this.setFilter('nekropola')}>Nekropola stećaka</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Arheološka nalazišta</NavLink>
+                            <NavLink onClick={() => this.setFilter('arheologija')}>Arheološka nalazišta</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
@@ -195,47 +220,47 @@ class MapNavbar extends React.Component{
                             <NavLink onClick={() => this.setFilter('streljastvo')}>Streljaštvo</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Jahanje</NavLink>
+                            <NavLink onClick={() => this.setFilter('jahanje')}>Jahanje</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Biciklizam</NavLink>
+                            <NavLink onClick={() => this.setFilter('biciklizam')}>Biciklizam</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Paraglajding</NavLink>
+                            <NavLink onClick={() => this.setFilter('paraglajding')}>Paraglajding</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Planinarenje</NavLink>
+                            <NavLink onClick={() => this.setFilter('planinarenje')}>Planinarenje</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Penjanje</NavLink>
+                            <NavLink onClick={() => this.setFilter('penjanje')}>Penjanje</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Kanu</NavLink>
+                            <NavLink onClick={() => this.setFilter('kanu')}>Kanu</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Rafting</NavLink>
+                            <NavLink onClick={() => this.setFilter('rafting')}>Rafting</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Skijanje</NavLink>
+                            <NavLink onClick={() => this.setFilter('skijanje')}>Skijanje</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
                 <Collapse className="navbar-toggleable-md px-5" isOpen={!this.state.innature}>
                     <Nav className="row">
                         <NavItem>
-                            <NavLink>Pećina</NavLink>
+                            <NavLink onClick={() => this.setFilter('pecina')}>Pećina</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Rijeka</NavLink>
+                            <NavLink onClick={() => this.setFilter('rijeka')}>Rijeka</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Jezera</NavLink>
+                            <NavLink onClick={() => this.setFilter('jezera')}>Jezera</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Šuma</NavLink>
+                            <NavLink onClick={() => this.setFilter('suma')}>Šuma</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>Planina</NavLink>
+                            <NavLink onClick={() => this.setFilter('planina')}>Planina</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
