@@ -12,7 +12,7 @@
 }
 
 li.nav-item{
-    width: 160px;
+    width: 120px;
     font-size: 12pt;
     display: flex;
     align-items: center;
@@ -95,3 +95,82 @@ li.nav-item a>p{
 .row .nav-item{
     height: 60px !important;
 }
+
+#message{
+    display: none;
+}
+
+@media only screen and (max-width: 600px) and (orientation:portrait){
+    #mapcontainer {
+        display: none;
+    }
+
+    #message{
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        height: 100vh;
+    }
+}
+
+
+@media only screen and (min-width: 625px) and (max-width: 1024px) and (orientation: landscape)  {
+
+    #mapcontainer {
+        width: 100vw;
+        overflow-x: hidden;
+        position: absolute;
+    }
+
+    .leaflet-container{
+        max-height: 100vh !important;
+        height: 100vh !important;
+    }
+
+    .nav-link img{
+        display: none;
+    }
+
+    li.nav-item{
+        width: 60px !important;
+    }
+}
+
+
+@media only screen and (orientation:portrait){
+
+#mapcontainer {
+  
+     height: 100vw;
+  
+     -webkit-transform: rotate(90deg);
+  
+     -moz-transform: rotate(90deg);
+  
+     -o-transform: rotate(90deg);
+  
+     -ms-transform: rotate(90deg);
+  
+     transform: rotate(90deg);
+  
+    }
+  
+  }
+  
+  @media only screen and (orientation:landscape){
+  
+    #mapcontainer {
+  
+    -webkit-transform: rotate(0deg);
+  
+    -moz-transform: rotate(0deg);
+  
+    -o-transform: rotate(0deg);
+  
+    -ms-transform: rotate(0deg);
+  
+    transform: rotate(0deg);
+  
+     }
+
+    }
